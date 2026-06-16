@@ -1,0 +1,86 @@
+.modal-overlay{
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100vh;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  background: rgba(0,0,0,0.45);
+
+  z-index:9999;
+}
+
+/* modal box */
+
+.modal-box{
+
+  width:460px;
+  background:white;
+
+  padding:28px;
+  border-radius:10px;
+
+  box-shadow:0 15px 40px rgba(0,0,0,0.25);
+
+}
+
+/* heading */
+
+.modal-box h2{
+  margin-bottom:8px;
+}
+
+.modal-box p{
+  color:#6b7280;
+  font-size:14px;
+}
+
+/* inputs */
+
+.modal-box input,
+.modal-box textarea{
+
+  width:100%;
+  padding:12px;
+  margin-top:12px;
+
+  border-radius:6px;
+  border:1px solid #d1d5db;
+
+}
+
+/* buttons */
+
+.modal-actions{
+
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:18px;
+
+}
+
+.cancel-btn{
+
+  background:#e5e7eb;
+  border:none;
+  padding:10px 16px;
+  border-radius:6px;
+  cursor:pointer;
+
+}
+
+.create-btn{
+
+  background:#111827;
+  color:white;
+  border:none;
+  padding:10px 16px;
+  border-radius:6px;
+  cursor:pointer;
+
+}
