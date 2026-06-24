@@ -12,14 +12,29 @@ const Results = () => {
   useEffect(() => {
 
     const fetchResults = async () => {
+
       try {
+
         const res = await API.get(`/election/result/${id}`);
-        setResults(res.data);
+
+        // 🔥 Fix field names from backend
+        const fixedData = res.data.map(item => ({
+          candidateId: item.candidateId || item.candidateid,
+          candidateName: item.candidateName || item.candidatename,
+          voteCount: Number(item.voteCount || item.votecount || 0)
+        }));
+
+        setResults(fixedData);
+
       } catch (err) {
+
         console.error("RESULT ERROR:", err);
         alert("Cannot load result");
+
       } finally {
+
         setLoading(false);
+
       }
     };
 
@@ -27,14 +42,18 @@ const Results = () => {
 
   }, [id]);
 
-  // 🔥 SORT RESULTS (highest votes first)
-  const sorted = [...results].sort((a, b) => b.voteCount - a.voteCount);
+  // 🔥 Sort by votes
+  const sorted = [...results].sort(
+    (a, b) => b.voteCount - a.voteCount
+  );
 
-  const totalVotes = sorted.reduce((sum, r) => sum + r.voteCount, 0);
+  const totalVotes = sorted.reduce(
+    (sum, r) => sum + r.voteCount,
+    0
+  );
 
   const leader = sorted[0];
 
-  // ===== LOADING =====
   if (loading) {
     return <h2 style={{ padding: "30px" }}>Loading Results...</h2>;
   }
@@ -45,7 +64,6 @@ const Results = () => {
 
       <h1>Election Results</h1>
 
-      {/* 🔥 LEADER CARD */}
       {leader && (
         <div className="leader-card">
 
@@ -61,9 +79,10 @@ const Results = () => {
 
             <div>
               <h3>
-                {totalVotes === 0 ? 0 :
-                  Math.round((leader.voteCount / totalVotes) * 100)
-                }%
+                {totalVotes === 0
+                  ? 0
+                  : Math.round((leader.voteCount / totalVotes) * 100)}
+                %
               </h3>
               <span>of total</span>
             </div>
@@ -73,14 +92,14 @@ const Results = () => {
         </div>
       )}
 
-      {/* 🔥 LIST */}
       <h3 style={{ marginTop: "30px" }}>Detailed Results</h3>
 
       {sorted.map((r, index) => {
 
         const percent =
-          totalVotes === 0 ? 0 :
-          Math.round((r.voteCount / totalVotes) * 100);
+          totalVotes === 0
+            ? 0
+            : Math.round((r.voteCount / totalVotes) * 100);
 
         return (
 
@@ -103,7 +122,6 @@ const Results = () => {
 
             </div>
 
-            {/* 🔥 PROGRESS BAR */}
             <div className="progress-bar">
               <div
                 className="progress-fill"
@@ -117,7 +135,6 @@ const Results = () => {
 
       })}
 
-      {/* 🔥 STATS */}
       <div className="stats-grid" style={{ marginTop: "30px" }}>
 
         <div className="stat-card">
